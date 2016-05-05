@@ -1,0 +1,260 @@
+-- MySQL Administrator dump 1.4
+--
+-- ------------------------------------------------------
+-- Server version	5.5.8
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
+--
+-- Create schema semeru_jsf_maven_db
+--
+
+CREATE DATABASE IF NOT EXISTS piloto;
+USE piloto;
+
+--
+-- Definition of table `cidade`
+--
+
+DROP TABLE IF EXISTS `ciudad`;
+CREATE TABLE `ciudad` (
+  `IdCiudad` int(11) NOT NULL AUTO_INCREMENT,
+  `Nombre` varchar(80) NOT NULL,
+  PRIMARY KEY (`IdCiudad`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cidade`
+--
+
+/*!40000 ALTER TABLE `cidade` DISABLE KEYS */;
+INSERT INTO `ciudad` (`IdCiudad`,`Nombre`) VALUES 
+ (1,'PATOS DE MINAS'),
+ (3,'PATROC NIO'),
+ (5,'UBERLÃ‚NDIA'),
+ (6,'UBERABA'),
+ (13,'ARAGUARI'),
+ (20,'GOIÃ‚NIA'),
+ (21,'BRASÃ LIA'),
+ (22,'FORTALEZA'),
+ (24,'JOÃƒO PESSOA'),
+ (25,'CAMAÃ‡ARI'),
+ (26,'ANARQUILÃ“POLIS');
+/*!40000 ALTER TABLE `cidade` ENABLE KEYS */;
+
+
+--
+-- Definition of table `direccion`
+--
+
+DROP TABLE IF EXISTS `direccion`;
+CREATE TABLE `direccion` (
+  `IdDireccion` int(11) NOT NULL AUTO_INCREMENT,
+  `Barrio` varchar(80) DEFAULT NULL,
+  `CEP` varchar(9) DEFAULT NULL,
+  `Complemento` int(11) DEFAULT NULL,
+  `NomCalle` varchar(80) DEFAULT NULL,
+  `Numero` int(11) DEFAULT NULL,
+  `IdCiudaD` int(11) NOT NULL,
+  `IdEstado` int(11) NOT NULL,
+  `IdPersona` int(11) DEFAULT NULL,
+  `IdTipoDireccion` int(11) NOT NULL,
+  `IdTipoCalle` int(11) NOT NULL,
+  PRIMARY KEY (`IdDireccion`),
+  KEY `DireccionTipoCalle` (`IdTipoCalle`),
+  KEY `DireccionCiudad` (`IdCiudad`),
+  KEY `DireccionTipoDireccion` (`IdTipoDireccion`),
+  KEY `DireccionEstado` (`IdEstado`),
+  KEY `DireccionPersona` (`IdPersona`),
+  CONSTRAINT `DireccionCiudad` FOREIGN KEY (`IdCiudad`) REFERENCES `ciudad` (`IdCiudad`),
+  CONSTRAINT `DireccionEstado` FOREIGN KEY (`IdEstado`) REFERENCES `estado` (`IdEstado`),
+  CONSTRAINT `DireccionPersona` FOREIGN KEY (`IdPersona`) REFERENCES `persona` (`IdPersona`),
+  CONSTRAINT `DireccionTipoDireccion` FOREIGN KEY (`IdTipoDireccion`) REFERENCES `tipodireccion` (`IdTipoDireccion`),
+  CONSTRAINT `DireccionTipoCalle` FOREIGN KEY (`IdTipoCalle`) REFERENCES `tipocalle` (`IdTipoCalle`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `direccion`
+--
+
+/*!40000 ALTER TABLE `direccion` DISABLE KEYS */;
+INSERT INTO `direccion` (`IdDireccion`,`Barrio`,`CEP`,`Complemento`,`NomCalle`,`Numero`,`IdCiudad`,`IdEstado`,`IdPersona`,`IdTipoDireccion`,`IdTipoCalle`) VALUES 
+ (1,'AHFGSDGFS','11111-111',0,'WERTYUI',21,1,11,1,1,1);
+/*!40000 ALTER TABLE `direccion` ENABLE KEYS */;
+
+
+--
+-- Definition of table `estado`
+--
+
+DROP TABLE IF EXISTS `estado`;
+CREATE TABLE `estado` (
+  `IdEstado` int(11) NOT NULL AUTO_INCREMENT,
+  `NomEstado` varchar(40) NOT NULL,
+  PRIMARY KEY (`IdEstado`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `estado`
+--
+
+/*!40000 ALTER TABLE `estado` DISABLE KEYS */;
+INSERT INTO `estado` (`IdEstado`,`NomEstado`) VALUES 
+ (1,'ACRE'),
+ (2,'ALAGOAS'),
+ (3,'AMAZONAS'),
+ (4,'AMAPÃ '),
+ (5,'BAHIA'),
+ (6,'CEARÃ '),
+ (7,'DISTRITO FEDERAL'),
+ (8,'ESPÃ RITO SANTO'),
+ (9,'GOIÃ S'),
+ (10,'MARANHÃƒO'),
+ (11,'MINAS GERAIS'),
+ (12,'MATO GROSSO DO SUL'),
+ (13,'MATO GROSSO'),
+ (14,'PARÃ '),
+ (15,'PARAÃ BA'),
+ (16,'PERNAMBUCO'),
+ (17,'PIAUÃ '),
+ (18,'PARANÃ '),
+ (19,'RIO DE JANEIRO'),
+ (20,'RIO GRANDE DO NORTE'),
+ (21,'RORAIMA'),
+ (22,'RONDÃ”NIA'),
+ (23,'RIO GRANDE DO SUL'),
+ (24,'SANTA CATARINA'),
+ (25,'SERGIPE'),
+ (26,'SÃƒO PAULO'),
+ (27,'TOCANTINS');
+/*!40000 ALTER TABLE `estado` ENABLE KEYS */;
+
+
+--
+-- Definition of table `persona`
+--
+
+DROP TABLE IF EXISTS `persona`;
+CREATE TABLE `persona` (
+  `IdPersona` int(11) NOT NULL AUTO_INCREMENT,
+  `CPF` varchar(14) NOT NULL,
+  `DataDeCatastro` date NOT NULL,
+  `DataDeNacimento` date NOT NULL,
+  `Email` varchar(80) NOT NULL,
+  `Nombre` varchar(80) NOT NULL,
+  `Telefono` varchar(15) NOT NULL,
+  `IdSexo` int(11) NOT NULL,
+  `Login` varchar(25) DEFAULT NULL,
+  `Permiso` varchar(36) DEFAULT NULL,
+  `Contrasena` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`IdPersona`),
+  UNIQUE KEY `Login` (`Login`),
+  KEY `PersonaSexo` (`IdSexo`),
+  CONSTRAINT `PersonaSexo` FOREIGN KEY (`IdSexo`) REFERENCES `sexo` (`IdSexo`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `persona`
+--
+
+/*!40000 ALTER TABLE `persona` DISABLE KEYS */;
+INSERT INTO `persona` (`IdPersona`,`CPF`,`DataDeCatastro`,`DataDeNacimento`,`Email`,`Nombre`,`Telefono`,`IdSexo`,`Login`,`Permiso`,`Contrasena`) VALUES 
+ (1,'12345667644','2013-01-12','2013-01-01','teste@live.com','ADMIN','(11) 1111-1111',1,'admin','ROLE_ADMIN','d033e22ae348aeb5660fc2140aec35850c4da997');
+/*!40000 ALTER TABLE `persona` ENABLE KEYS */;
+
+
+--
+-- Definition of table `sexo`
+--
+
+DROP TABLE IF EXISTS `sexo`;
+CREATE TABLE `sexo` (
+  `IdSexo` int(11) NOT NULL AUTO_INCREMENT,
+  `Descripcion` varchar(9) NOT NULL,
+  PRIMARY KEY (`IdSexo`),
+  UNIQUE KEY `Descripcion` (`Descripcion`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sexo`
+--
+
+/*!40000 ALTER TABLE `sexo` DISABLE KEYS */;
+INSERT INTO `sexo` (`IdSexo`,`Descripcion`) VALUES 
+ (2,'FEMININO'),
+ (1,'MASCULINO');
+/*!40000 ALTER TABLE `sexo` ENABLE KEYS */;
+
+
+--
+-- Definition of table `tipodireccion`
+--
+
+DROP TABLE IF EXISTS `tipodireccion`;
+CREATE TABLE `tipodireccion` (
+  `IdTipoDireccion` int(11) NOT NULL AUTO_INCREMENT,
+  `DescripcionTipoDireccion` varchar(35) NOT NULL,
+  PRIMARY KEY (`IdTipoDireccion`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tipodireccion`
+--
+
+/*!40000 ALTER TABLE `tipodireccion` DISABLE KEYS */;
+INSERT INTO `tipodireccion` (`IdTipoDireccion`,`DescripcionTipoDireccion`) VALUES 
+ (1,'RESIDENCIAL'),
+ (2,'COMERCIAL'),
+ (3,'RODOVIA'),
+ (4,'FAZENDA'),
+ (5,'INDÃšSTRIA'),
+ (6,'CHÃ CARA'),
+ (7,'VILA');
+/*!40000 ALTER TABLE `tipodireccion` ENABLE KEYS */;
+
+
+--
+-- Definition of table `tipocalle`
+--
+
+DROP TABLE IF EXISTS `tipocalle`;
+CREATE TABLE `tipocalle` (
+  `IdTipoCalle` int(11) NOT NULL AUTO_INCREMENT,
+  `DescripcionTipoCalle` varchar(40) NOT NULL,
+  PRIMARY KEY (`IdTipoCalle`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tipocalle`
+--
+
+/*!40000 ALTER TABLE `tipocalle` DISABLE KEYS */;
+INSERT INTO `tipocalle` (`IdTipoCalle`,`DescripcionTipoCalle`) VALUES 
+ (1,'RUA'),
+ (2,'ALAMEDA'),
+ (3,'AVENIDA'),
+ (4,'VIELA'),
+ (5,'BECO'),
+ (6,'TRAVESSA'),
+ (7,'PRAÃ‡A');
+/*!40000 ALTER TABLE `tipocalle` ENABLE KEYS */;
+
+
+
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../resources/main.xhtml">
+
+    <ui:define name="tarefas">
+        <h:form>
+            <p:growl id="msg0"/>
+            <p:dataTable id="idTabela" var="persona" value="#{mbPersona.personas}"
+                         paginator="true" rows="10" emptyMessage="Nenhum registro encontrado"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}
+                         {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15">
+
+                <f:facet name="header">Lista de Personas</f:facet>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Nome"/>
+                    </f:facet>
+                    <h:outputText value="#{persona.nombre}"/>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Email"/>
+                    </f:facet>
+                    <h:outputText value="#{persona.email}"/>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Telefono"/>
+                    </f:facet>
+                    <h:outputText value="#{persona.telefono}"/>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Ciudad"/>
+                    </f:facet>
+                    <h:outputText value="#{persona.direccion.ciudad.nombre}"/>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Acciones"/>
+                    </f:facet>
+                    <p:commandButton action="#{mbPersona.editPersona}"
+                        value="Editar" image="ui-icon ui-icon-pencil"
+                        update="@form" ajax="false">
+                        <f:setPropertyActionListener value="#{persona}" target="#{mbPersona.persona}"/>
+                        <f:setPropertyActionListener value="#{persona.idPersona}" target="#{mbPersona.persona.idPersona}"/>
+                        <f:setPropertyActionListener value="#{persona.direccion}" target="#{mbPersona.direccion}"/>
+                        <f:setPropertyActionListener value="#{persona.direccion.estado.idEstado}" target="#{mbPersona.direccion.estado.idEstado}"/>                        
+                        <f:setPropertyActionListener value="#{persona.direccion.ciudad.idCiudad}" target="#{mbPersona.direccion.ciudad.idCiudad}"/>
+                        <f:setPropertyActionListener value="#{persona.direccion.tipodireccion.idTipoDireccion}" target="#{mbPersona.direccion.tipodireccion.idTipoDireccion}"/>
+                        <f:setPropertyActionListener value="#{persona.direccion.tipocalle.idTipoCalle}" target="#{mbPersona.direccion.tipocalle.idTipoCalle}"/>
+                    </p:commandButton>
+                    
+                    <p:commandButton value="Cancelar" action="#{mbPersona.limpPersona}"
+                                     image="ui-icon ui-icon-close" update="@form"/>
+
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

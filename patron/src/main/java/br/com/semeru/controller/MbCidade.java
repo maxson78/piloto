@@ -50,13 +50,13 @@ public class MbCidade implements Serializable {
     private void insertCidade() {
         cidadeDAO().save(cidade);
         FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Gravação efetuada com sucesso", ""));
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Grabada correctamente", ""));
     }
 
     private void updateCidade() {
         cidadeDAO().update(cidade);
         FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Atualização efetuada com sucesso", ""));
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualizado correctamente", ""));
     }
     
     public void deleteCidade(){

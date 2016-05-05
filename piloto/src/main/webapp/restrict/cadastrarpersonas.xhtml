@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../resources/main.xhtml">
+
+    <ui:define name="tarefas">
+        <p:fieldset legend="Cadastrar Personas">
+
+            <br/>
+            <h:form>
+                <p:wizard nextLabel="Próxima Aba" backLabel="Aba Anterior">
+                    <p:tab title="Informaciones Básicas" id="infoPersonal">
+                        <p:panel header="Informaciones Básicas da Persona">
+                            <p:growl id="msg0"/>
+                            <h:panelGrid columns="2" cellpadding="10" styleClass="panelGrid" id="grid0">
+
+                                <h:outputLabel/>
+                                <h:inputHidden id="idpersona" value="#{mbPersona.persona.idPersona}"/> 
+
+                                <h:outputLabel for="nombrePersona" value="Nome.:"/>
+                                <p:inputText id="nombrePersona" size="40" value="#{mbPersona.persona.nombre}"
+                                             required="true" requiredMessage="Campo [Nombre] es obligatorio"
+                                             onkeyup="this.value = this.value.toUpperCase()"/>
+
+                                <h:outputLabel for="sexo" value="Sexo.:"/>
+                                <p:selectOneMenu id="sexo" value="#{mbPersona.persona.sexo.idSexo}">
+                                    <f:selectItems value="#{bbSexo.sexos}" var="sexo" itemValue="#{sexo.idSexo}" itemLabel="#{sexo.descripcion}"/>
+                                </p:selectOneMenu>
+
+                                <h:outputLabel for="telefono" value="Telefono.:"/>
+                                <p:inputMask id="telefoneo" size="40" mask="(99) 9999-9999"
+                                             value="#{mbPersona.persona.telefono}"
+                                             required="true" requiredMessage="Campo [Telefono] es obligatorio"
+                                             onkeyup="this.value = this.value.toUpperCase()"/>
+
+                                <h:outputLabel for="email" value="E-mail.:"/>
+                                <p:inputText id="email" size="40" value="#{mbPersona.persona.email}"
+                                             required="true" requiredMessage="Campo [E-mail] es obligatorio">
+                                    <f:validator validatorId="emailValidator"/>
+                                </p:inputText>
+
+                                <h:outputLabel for="cpf" value="CPF.:"/>
+                                <p:inputText id="cpf" size="40" value="#{mbPersona.persona.cpf}"
+                                             required="true" requiredMessage="O campo [CPF] es obligatorio">
+                                    <f:validator validatorId="cpfValidator"/>
+                                </p:inputText>
+
+                                <h:outputLabel for="dataNacimento" value="Data de Nacimento.:"/>
+                                <p:calendar id="dataNacimento" value="#{mbPersona.persona.dataDeNacimento}"
+                                            required="true" requiredMessage="Campo [Data de Nacimento] es obligatorio"
+                                            locale="pt_BR" navigator="true" effect="explode" pattern="dd/MM/yyyy"/>
+
+                                <h:outputLabel for="usuario" value="Nome de Usuário.:"/>
+                                <p:inputText id="usuario" value="#{mbPersona.persona.login}" size="30"/>
+
+                                <h:outputLabel for="contrasena" value="Contasena.:" />
+                                <p:password id="contrasena" size="30" maxlength="22" promptLabel="Digite sua Contrasena" value="#{mbPersona.confereContrasena}"
+                                            weakLabel="Contrasena Fraca" goodLabel="Contrasena Boa" strongLabel="Contrasena Forte" feedback="true"/> 
+
+                                <h:outputLabel for="contrasenaconf2" value="Confirmar Contrasena.:"/>
+                                <p:password id="contrasenaconf2" size="30" value="#{mbPersona.persona.contrasena}" maxlength="22"   
+                                            promptLabel="Confirme sua Contrasena" weakLabel="Contrasena Fraca" validator="passwordValidator"
+                                            goodLabel="Contrasena Boa" strongLabel="Contrasena Forte" feedback="true">
+                                </p:password>  
+
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab title="Informações do Endereço" id="infoDireccion">
+                        <p:panel header="Informações do Endereço">
+                            <p:growl id="msg1"/>
+                            <h:panelGrid columns="2" cellpadding="10" styleClass="panelGrid" id="grid1">
+
+                                <h:outputLabel for="uf" value="Estado.:" />
+                                <p:selectOneMenu id="uf" value="#{mbPersona.direccion.estado.idEstado}">
+                                    <f:selectItems value="#{bbEstado.estados}" var="estado"
+                                                   itemValue="#{estado.idEstado}" itemLabel="#{estado.nomeEstado}"/>
+                                </p:selectOneMenu>
+
+
+                                <h:outputLabel for="ciudad" value="Ciudad.:" />
+                                <p:selectOneMenu id="ciudad" value="#{mbPersona.direccion.ciudad.idCiudad}">
+                                    <f:selectItems value="#{bbCiudad.ciudads}" var="ciudad"
+                                                   itemValue="#{ciudad.idCiudad}" itemLabel="#{ciudad.nome}"/>
+                                </p:selectOneMenu>
+
+
+                                <h:outputLabel for="barrio" value="Barrio.:"/>
+                                <p:inputText id="barrio" size="60" value="#{mbPersona.direccion.barrio}" required="true" 
+                                             requiredMessage="É obrigatório o preenchimento do campo [Barrio]"
+                                             onkeyup="this.value = this.value.toUpperCase()"/>
+
+                                <h:outputLabel for="idTipoDireccion" value="Tipo de Endereço.:"/>
+                                <p:selectOneMenu id="idTipoDireccion" value="#{mbPersona.direccion.tipodireccion.idTipoDireccion}">
+                                    <f:selectItems value="#{bbTipoDireccion.tipoDireccions}" var="tipoDireccion"
+                                                   itemValue="#{tipoDireccion.idTipoDireccion}" itemLabel="#{tipoDireccion.descricaoTipoDireccion}"/>
+                                </p:selectOneMenu>
+
+                                <h:outputLabel for="idTipoCalle" value="Tipo de Calle.:"/>
+                                <p:selectOneMenu id="idTipoCalle" value="#{mbPersona.direccion.tipocalle.idTipoCalle}">
+                                    <f:selectItems value="#{bbTipoCalle.tipoCalles}" var="tipoCalle"
+                                                   itemValue="#{tipoCalle.idTipoCalle}" itemLabel="#{tipoCalle.descricaoTipoCalle}"/>
+                                </p:selectOneMenu>
+
+                                <h:outputLabel for="nomecalle" value="Calle.:"/>
+                                <p:inputText id="nomecalle" size="75" value="#{mbPersona.direccion.nombreCalle}" 
+                                             required="true" requiredMessage="É obrigatório o preenchimento do campo [Calle]"
+                                             onkeyup="this.value = this.value.toUpperCase()"/>
+
+                                <h:outputLabel for="cep" value="CEP.:"/>
+                                <p:inputMask id="cep" size="10" value="#{mbPersona.direccion.cep}" mask="99999-999" required="true" requiredMessage="É obrigatório o preenchimento do campo [CEP]"/> 			
+
+                                <h:outputLabel for="numero" value="Numero.:"/>
+                                <p:inputText id="numero" size="8" value="#{mbPersona.direccion.numero}" required="true" requiredMessage="É obrigatório o preenchimento do campo [Número]"/>	
+
+                                <h:outputLabel for="complemento" value="Complemento.:"/>
+                                <p:inputText id="complemento" size="20" value="#{mbPersona.direccion.complemento}" onkeyup="this.value = this.value.toUpperCase()"/>
+
+                                <p:panel>
+                                    <p:commandButton value="Salvar" action="#{mbPersona.addPersona}"
+                                                     image="ui-icon ui-icon-disk" update="@form"/>
+                                    <p:commandButton value="Cancelar" actionListener="#{mbPersona.limpPersona}" 
+                                                     image="ui-icon ui-icon-close" update="@form"/>
+                                </p:panel>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+                </p:wizard>
+            </h:form>
+        </p:fieldset>
+    </ui:define>
+
+</ui:composition>
